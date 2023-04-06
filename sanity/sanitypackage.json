@@ -2,7 +2,7 @@
   "name": "deliveroo-clone",
   "private": true,
   "version": "1.0.0",
-  "main": "package.json",
+  "main": "sanitypackage.json",
   "license": "UNLICENSED",
   "scripts": {
     "dev": "sanity dev",

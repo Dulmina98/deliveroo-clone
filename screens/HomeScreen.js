@@ -1,19 +1,37 @@
 import {Image, SafeAreaView, ScrollView, Text, TextInput, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {Feather} from '@expo/vector-icons';
 import {Categories} from "../components/Categories";
 import {FeaturedRow} from "../components/FeaturedRow";
+import createClient from "../sanity";
 
 
 export function HomeScreen() {
     const navigation = useNavigation();
+    const [featuredCategories, setFeaturedCategories] = useState([])
 
     useEffect(() => {
         navigation.setOptions({
             headerShown: false,
         })
     }, [])
+
+    useEffect(() => {
+        createClient.fetch(`
+            *[_type == "featured"] {
+                ...,
+                restaurants[]->{
+                ...,
+                dishes[]->
+            }
+        }`
+        )
+            .then((data) => {
+                setFeaturedCategories(data)
+            })
+    }, [])
+
 
     return (
         <SafeAreaView className={'bg-white pt-10'}>
@@ -51,21 +69,17 @@ export function HomeScreen() {
                 {/*Categories*/}
                 <Categories/>
                 {/*Featured row*/}
-                <FeaturedRow
-                    id={12345}
-                    title={"Offers near you!"}
-                    description={"Why not support your local restaurant tonight!"}
-                />
-                <FeaturedRow
-                    id={"123"}
-                    title={"Featured"}
-                    description={"Paid placements for our partners"}
-                />
-                <FeaturedRow
-                    id={1234}
-                    title={"Tasty Discounts"}
-                    description={"Everyone's been enjoying these juicy discounts"}
-                />
+
+                {featuredCategories?.map((category) => (
+                        <FeaturedRow
+                            key={category._id}
+                            id={category._id}
+                            title={category.name}
+                            description={category.shortDescription}
+                        />
+                    )
+                )}
+
 
             </ScrollView>
         </SafeAreaView>
