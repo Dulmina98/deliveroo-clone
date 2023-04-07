@@ -41,6 +41,11 @@ export function PreparingOrderScreen() {
 
     }, []);
 
+    useEffect(() => {
+        setTimeout(() => {
+            navigation.navigate("Delivery")
+        }, 4000)
+    }, [])
 
     return (
         <SafeAreaView className={"flex-1 bg-[#00CCBB]"}>
