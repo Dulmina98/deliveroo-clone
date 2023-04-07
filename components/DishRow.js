@@ -3,10 +3,20 @@ import {urlFor} from "../sanity";
 import {currencyFormat} from "simple-currency-format";
 import {useState} from "react";
 import {AntDesign} from "@expo/vector-icons";
+import {useDispatch, useSelector} from "react-redux";
+import {addToBasket, selectBasketItemsWithId} from "../features/basketSlice";
 
 export function DishRow({id, name, price, image, description}) {
 
     const [isPressed, setIsPressed] = useState(false)
+    const dispatch = useDispatch();
+    const items = useSelector(state => selectBasketItemsWithId(state, id))
+
+    const addItemToBasket = () => {
+        dispatch(addToBasket({id, name, price, image, description}))
+    }
+
+    console.log(items)
 
     return (
         <>
@@ -39,8 +49,8 @@ export function DishRow({id, name, price, image, description}) {
                         <TouchableOpacity>
                             <AntDesign name="minuscircleo" size={24} color="#00CCBB"/>
                         </TouchableOpacity>
-                        <Text>0</Text>
-                        <TouchableOpacity>
+                        <Text>{items.length}</Text>
+                        <TouchableOpacity onPress={addItemToBasket}>
                             <AntDesign name="pluscircleo" size={24} color="#00CCBB"/>
                         </TouchableOpacity>
                     </View>

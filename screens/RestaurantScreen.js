@@ -65,7 +65,7 @@ export function RestaurantScreen() {
                         <Feather name="chevron-right" size={20} color="#00CCBB" opacity={0.5}/>
                     </TouchableOpacity>
 
-                    <View>
+                    <View className={"pb-4"}>
                         <Text className={"pt-6 font-bold text-xl px-4 mb-4"}>Menu</Text>
 
                         {/*Dishes*/}
