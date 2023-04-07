@@ -4,16 +4,20 @@ import {currencyFormat} from "simple-currency-format";
 import {useState} from "react";
 import {AntDesign} from "@expo/vector-icons";
 import {useDispatch, useSelector} from "react-redux";
-import {addToBasket, selectBasketItemsWithId} from "../features/basketSlice";
+import {addToBasket, removeFromBasket, selectBasketItemsWithId} from "../features/basketSlice";
 
 export function DishRow({id, name, price, image, description}) {
-
     const [isPressed, setIsPressed] = useState(false)
     const dispatch = useDispatch();
     const items = useSelector(state => selectBasketItemsWithId(state, id))
 
     const addItemToBasket = () => {
         dispatch(addToBasket({id, name, price, image, description}))
+    }
+
+    const removeItemFromBasket = () => {
+        if (!items.length > 0) return;
+        dispatch(removeFromBasket({id}))
     }
 
     console.log(items)
@@ -46,12 +50,13 @@ export function DishRow({id, name, price, image, description}) {
             {isPressed && (
                 <View className={"bg-white px-4 pb-2"}>
                     <View className={"flex-row items-center space-x-2 pb-3"}>
-                        <TouchableOpacity>
-                            <AntDesign name="minuscircleo" size={24} color="#00CCBB"/>
+                        <TouchableOpacity disabled={!items.length} onPress={removeItemFromBasket}>
+                            <AntDesign name="minuscircleo" size={28}
+                                       color={items.length > 0 ? "#00CCBB" : "gray"}/>
                         </TouchableOpacity>
-                        <Text>{items.length}</Text>
+                        <Text className={"min-w-[10] text-center"}>{items.length}</Text>
                         <TouchableOpacity onPress={addItemToBasket}>
-                            <AntDesign name="pluscircleo" size={24} color="#00CCBB"/>
+                            <AntDesign name="pluscircleo" size={28} color="#00CCBB"/>
                         </TouchableOpacity>
                     </View>
                 </View>
