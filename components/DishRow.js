@@ -20,7 +20,7 @@ export function DishRow({id, name, price, image, description}) {
         dispatch(removeFromBasket({id}))
     }
 
-    console.log(items)
+    /*console.log(items)*/
 
     return (
         <>
