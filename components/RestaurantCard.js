@@ -15,14 +15,14 @@ export function RestaurantCard({id, imgUrl, title, rating, genre, address, short
                     id, imgUrl, title, rating, genre, address, shortDescription, dishes, long, lat
                 })
             }}
-            className={"shadow bg-white mr-3"}>
+            className={"shadow bg-white mr-3 rounded-b-sm"}>
             <Image
                 source={{
                     uri: urlFor(imgUrl).url()
                 }}
                 className={"h-[150] w-[250] rounded-t-sm"}
             />
-            <View className={'pt-3 px-4 pb-5 rounded-b-sm'}>
+            <View className={'pt-3 px-4 pb-5'}>
                 <Text className={"text-lg font-bold"}>{title}</Text>
                 <View className={"flex-row items-center mt-1 space-x-1"}>
                     <Ionicons name="star" size={20} opacity={0.5} color="green"/>
